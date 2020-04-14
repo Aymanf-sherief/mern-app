@@ -19,7 +19,7 @@ lastname:  {
     maxlength: 50
 },
 role: {
-    type: Number;
+    type: Number,
     default: 0
 },
 token: {
