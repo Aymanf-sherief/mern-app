@@ -3,12 +3,8 @@ const router = express.Router();
 
 const { User } = require('../models/user');
 const { auth } = require('../middleware/auth');
+const user = require('../models/user');
 
-router.get('/api/users/auth', auth, (req, res) => {
-    console.log(req.url);
-    return res.status(200)
-        .json({ isAuth: true, userData: req.user });
-})
 
 router.post('/api/users/register', (req, res) => {
     const user = new User(req.body);
@@ -46,6 +42,19 @@ router.post('/api/users/login', (req, res) => {
         })
     })
 
+})
+
+router.get('/api/users/auth', auth, (req, res) => {
+    console.log(req.url);
+    return res.status(200)
+        .json({ isAuth: true, userData: req.user });
+})
+
+router.get('/api/users/logout', auth, (req, res) => {
+    User.findByIdAndUpdate({_id: req.user._id}, {token:  ""}, (err, user) => {
+        if (err) return res.json({logoutSuccess: false, err});
+        return res.status(200).json({logoutSuccess: true, userData: user});
+    })
 })
 
 module.exports = router;
