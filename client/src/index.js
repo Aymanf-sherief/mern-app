@@ -5,11 +5,22 @@ import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 
+import { Provider } from "react-redux";
+import createStorePresistor from "./configureStore";
+import { PersistGate } from 'redux-persist/integration/react'
+
+import "materialize-css/dist/css/materialize.min.css";
+
+const {store, persistor} = createStorePresistor();
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
