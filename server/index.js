@@ -19,8 +19,12 @@ app.use((req, res, next) => {
   } else next();
 });
 /* Build and deployment */
-app.use('/', express.static(path.join(__dirname, '../client/build')));
-
+app.get("*", (req, res) => {
+    let url = path.join(__dirname, '../client/build', 'index.html');
+    if (!url.startsWith('/app/')) // since we're on local windows
+      url = url.substring(1);
+    res.sendFile(url);
+  });
 mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('db connected'))
     .catch(err => console.log('db error' + json.toString(err)))
