@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"npm run backend --hot\" \"npm run frontend --hot\"",
+    "start": "concurrently \"node server/index.js --hot\" \"npm run frontend --hot\"",
     "backend": "nodemon server/index.js",
     "frontend": "npm start --prefix client",
     "dev": "concurrently \"npm run backend --hot\" \"npm run frontend --hot\""
