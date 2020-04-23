@@ -19,7 +19,9 @@ app.use((req, res, next) => {
   } else next();
 });
 /* Build and deployment */
-
+app.get('*', (req, res) => {
+    res.sendFile('../client/build/index.html');
+  });
 mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('db connected'))
     .catch(err => console.log('db error' + json.toString(err)))
