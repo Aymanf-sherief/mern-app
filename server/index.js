@@ -10,6 +10,18 @@ const mainRouter = require('./routers/mainRouter');
 
 const app = express();
 
+
+app.use(logger('dev'));
+/* redirection for heroku to https from http */
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production'
+    && req.header('x-forwarded-proto') !== 'https') {
+    res.redirect(`https://${req.header('host')}${req.url}`);
+  } else next();
+});
+/* Build and deployment */
+app.use('/', express.static(path.join(__dirname, '../client/build')));
+
 mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('db connected'))
     .catch(err => console.log('db error' + json.toString(err)))
