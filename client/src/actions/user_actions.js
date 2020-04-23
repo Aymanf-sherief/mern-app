@@ -27,3 +27,30 @@ export function authUser() {
     payload: resp,
   };
 }
+
+export function registerUser(userData) {
+  const resp = axios.post("/api/users/register",userData, {withCredentials: true}).then((response) => {
+    console.log(response.data);
+
+    return response.data;
+  });
+  
+  return {
+    type: REGISTER_USER,
+    payload: resp,
+  };
+}
+
+
+export function logoutUser() {
+  const resp = axios.get("/api/users/logout", {withCredentials: true}).then((response) => {
+    console.log(response.data);
+
+    return response.data;
+  });
+  
+  return {
+    type: LOGOUT_USER,
+    payload: resp,
+  };
+}

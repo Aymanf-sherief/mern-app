@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/user_actions";
 import { Redirect } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import Input from "./input";
 
@@ -36,7 +36,9 @@ class Login extends Component {
         console.log("going home");
 
         console.log(response);
-        this.setState({ redirect: "/Home" });
+        if(response.payload.loginSuccess){
+        this.props.auth();
+        }
       });
     }
   }
@@ -81,11 +83,21 @@ class Login extends Component {
             <div className="row">
               <div className="col s12">
                 <button
-                  className="btn waves-effect red lighten-2"
+                  className="btn waves-effect green lighten-2"
                   type="submit"
-                  name="action"
+                  name="login"
                 >
                   Log in
+                </button>
+                <button
+                  className="btn waves-effect blue lighten-2"
+                  name="register"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({ redirect: "/register" });
+                  }}
+                >
+                  register
                 </button>
               </div>
             </div>

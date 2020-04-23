@@ -11,67 +11,68 @@ import { authUser } from "../actions/user_actions";
 
 class App extends Component {
   state = {
-isAuthenticated: "not yet"
+    isAuthenticated: "not yet",
+  };
+  constructor(props) {
+    super(props);
   }
-constructor(props) {
-  super(props);
-  
 
-}
-  
-
-   Auth() {
+  Auth() {
     console.log("loading");
-    if (this.props.user === "undefiend") {
+    
       console.log(this.props);
       this.props
         .dispatch(authUser())
         .then((response) => {
-          console.log(`isAuthed is: ${JSON.stringify(response.payload.authSuccess)}`);
+          console.log(
+            `isAuthed is: ${JSON.stringify(response.payload.authSuccess)}`
+          );
 
-          this.setState({isAuthenticated: response.payload.authSuccess});
+          this.setState({ isAuthenticated: response.payload.authSuccess});
         })
-        .catch(() => this.setState({isAuthenticated: false}));
-    }
+        .catch((e) => {
+          console.log(`auth error: ${JSON.stringify(e)}`);
+          this.setState({ isAuthenticated: false });
+        });
+    
    
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.Auth();
   }
-render () {
-  
-  if(this.state.isAuthenticated == "not yet")
-  {
-    return <h4>loading ... </h4>
+  render() {
+    if (this.state.isAuthenticated == "not yet") {
+      return <h4>loading ... </h4>;
+    }
+    return (
+      <div className="App container">
+        <h1> Welcome to my app </h1>{" "}
+        <Switch>
+          <UnAuthenticatedRoute
+            path="/login"
+            component={Login}
+            appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()} }}
+          />
+          <UnAuthenticatedRoute
+            path="/register"
+            component={Register}
+            appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()}  }}
+          />{" "}
+          <AuthenticatedRoute
+            path="/home"
+            component={Home}
+            appProps={{ isAuthenticated: this.state.isAuthenticated }}
+          />{" "}
+          <AuthenticatedRoute
+            path="/about"
+            component={About}
+            appProps={{ isAuthenticated: this.state.isAuthenticated }}
+          />{" "}
+        </Switch>{" "}
+      </div>
+    );
   }
-  return (
-   
-    <div className="App container">
-      <h1> Welcome to my app </h1>{" "}
-      <Switch>
-        <UnAuthenticatedRoute
-          path="/login"
-          component={Login}
-          appProps={{isAuthenticated:this.state.isAuthenticated}}/>
-        <UnAuthenticatedRoute
-          path="/register"
-          component={Register}
-          appProps={{isAuthenticated:this.state.isAuthenticated}}
-        />{" "}
-        <AuthenticatedRoute
-          path="/home"
-          component={Home}
-          appProps={{isAuthenticated:this.state.isAuthenticated}}
-        />{" "}
-        <AuthenticatedRoute
-          path="/about"
-          component={About}
-          appProps={{isAuthenticated:this.state.isAuthenticated}}
-        />{" "}
-      </Switch>{" "}
-    </div>
-    )};
 }
 
 function mapStateToProps(state) {
