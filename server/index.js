@@ -18,6 +18,19 @@ app.use((req, res, next) => {
     res.redirect(`https://${req.header('host')}${req.url}`);
   } else next();
 });
+
+
+mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('db connected'))
+    .catch(err => console.log('db error' + json.toString(err)))
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use('/', mainRouter);
+
+
 /* Build and deployment */
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
@@ -32,18 +45,6 @@ if (process.env.NODE_ENV === "production") {
       res.sendFile(path.join(__dirname, "/../client/public/index.html"));
     });
   }
-
-
-mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('db connected'))
-    .catch(err => console.log('db error' + json.toString(err)))
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use('/', mainRouter);
-
 
 app.get('/', (req, res) => {
     console.log('get /');

@@ -25,6 +25,9 @@ class App extends Component {
         .dispatch(authUser())
         .then((response) => {
           console.log(
+            `auth resp: ${JSON.stringify(response)}`
+          );
+          console.log(
             `isAuthed is: ${JSON.stringify(response.payload.authSuccess)}`
           );
 
