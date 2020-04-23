@@ -19,20 +19,6 @@ app.use((req, res, next) => {
   } else next();
 });
 /* Build and deployment */
-let protected = ['transformed.js', 'main.css', 'favicon.ico']
-
-app.get("*", (req, res) => {
-
-  let path = req.params['0'].substring(1)
-
-  if (protected.includes(path)) {
-    // Return the actual file
-    res.sendFile(`${__dirname}/build/${path}`);
-  } else {
-    // Otherwise, redirect to /build/index.html
-    res.sendFile(`${__dirname}/build/index.html`);
-  }
-});
 
 mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('db connected'))
