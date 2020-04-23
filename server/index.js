@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
-
+const path = require('path')
 const config = require('./config/keys');
 const { json } = require('body-parser');
 const mainRouter = require('./routers/mainRouter');
@@ -11,7 +11,6 @@ const mainRouter = require('./routers/mainRouter');
 const app = express();
 
 
-app.use(logger('dev'));
 /* redirection for heroku to https from http */
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === 'production'
