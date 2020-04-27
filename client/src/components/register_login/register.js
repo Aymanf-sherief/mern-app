@@ -6,9 +6,7 @@ import {  Form, Button } from 'react-bootstrap';
 
 class RegisterFrom extends Component {
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
-    }
+  
     return (
       <Form>
         <Input placeholder="Email Address" type="email" name="email"></Input>

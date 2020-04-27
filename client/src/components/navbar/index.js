@@ -39,7 +39,11 @@ class CustomNavbar extends Component {
                 logout
               </Nav.Link>
             ) : (
+              <Nav className="mr-auto">
               <Nav.Link href="login">login</Nav.Link>
+              <Nav.Link href="register">register</Nav.Link>
+
+              </Nav>  
             )}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

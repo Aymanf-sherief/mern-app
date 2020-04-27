@@ -19,7 +19,7 @@ class LoginRegister extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.setState({newUser: this.props.newUser})
+    console.log(this.state)
     
   }
 
@@ -74,10 +74,12 @@ class LoginRegister extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    if(this.state.newUser)
-    return <RegisterForm onSubmit={this.OnSubmitSignup}></RegisterForm>;
-    else
+    if(this.props.newUser)
+    {
+    return <RegisterForm onSubmit={this.OnSubmitSignup}></RegisterForm>;}
+    else{
     return <LoginForm onSubmit={this.OnSubmitLogin} handleChange={this.handleChange}></LoginForm>;
+    }
 
   }
 }
