@@ -4,10 +4,12 @@ import { Switch } from "react-router-dom";
 import About from "./about";
 import Home from "./home";
 
-import Login from "./register_login";
-import Register from "./register_login/register";
+import CustomNavbar from "./navbar"
+import LoginRegister from "./register_login";
+import RegisterFrom from "./register_login/register";
 import { AuthenticatedRoute, UnAuthenticatedRoute } from "./route";
 import { authUser } from "../actions/user_actions";
+import { Container } from "react-bootstrap";
 
 class App extends Component {
   state = {
@@ -49,18 +51,18 @@ class App extends Component {
       return <h4>loading ... </h4>;
     }
     return (
-      <div className="App container">
-        <h1> Welcome to my app </h1>{" "}
+      <Container>
+        <CustomNavbar/>
         <Switch>
           <UnAuthenticatedRoute
             path="/login"
-            component={Login}
+            component={LoginRegister}
             appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()} }}
           />
           <UnAuthenticatedRoute
             path="/register"
-            component={Register}
-            appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()}  }}
+            component={LoginRegister}
+            appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()}  ,newUser:true}}
           />{" "}
           <AuthenticatedRoute
             path="/home"
@@ -73,7 +75,7 @@ class App extends Component {
             appProps={{ isAuthenticated: this.state.isAuthenticated }}
           />{" "}
         </Switch>{" "}
-      </div>
+        </Container>
     );
   }
 }

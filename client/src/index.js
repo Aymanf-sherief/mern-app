@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import createStorePresistor from "./configureStore";
 import { PersistGate } from 'redux-persist/integration/react'
 
-import "materialize-css/dist/css/materialize.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const {store, persistor} = createStorePresistor();
 ReactDOM.render(

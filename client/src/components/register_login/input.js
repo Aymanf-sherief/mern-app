@@ -1,26 +1,13 @@
 import React, { Component } from "react";
+import {  Form } from 'react-bootstrap';
 
 class Input extends Component {
   render() {
     return (
-      <div className="row">
-        <div className="input-field col s12">
-          <label htmlFor={this.props.inputName}>{this.props.inputName}</label>
-          <span
-            className="helper-text"
-            data-error={`Wrong ${this.props.inputName} format`}
-            data-success="Accepted"
-          ></span>
-          <input
-            name={this.props.inputName}
-            value={this.props.value}
-            onChange={this.props.handleChange}
-            id={this.props.inputName}
-            type={this.props.type}
-            className="validate"
-          ></input>
-        </div>
-      </div>
+      <Form.Group controlId={this.props.name}>
+        <Form.Label>{this.props.placeholder}</Form.Label>
+        <Form.Control {...this.props} />
+      </Form.Group>
     );
   }
 }
