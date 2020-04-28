@@ -30,7 +30,9 @@ const userSchema = mongoose.Schema({
     },
     tokenExp: {
         type: Number
-    }
+    },
+    posts     : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+
 
 })
 

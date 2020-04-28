@@ -7,7 +7,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import { logoutUser } from "../../actions/user_actions";
+import { logoutUser } from "../../actions/user/actions";
 import Cookies from "js-cookie";
 
 import { connect } from "react-redux";

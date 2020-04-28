@@ -8,7 +8,7 @@ import CustomNavbar from "./navbar"
 import LoginRegister from "./register_login";
 import RegisterFrom from "./register_login/register";
 import { AuthenticatedRoute, UnAuthenticatedRoute } from "./route";
-import { authUser } from "../actions/user_actions";
+import { authUser } from "../actions/user/actions";
 import { Container } from "react-bootstrap";
 
 class App extends Component {
@@ -29,9 +29,7 @@ class App extends Component {
           console.log(
             `auth resp: ${JSON.stringify(response)}`
           );
-          console.log(
-            `isAuthed is: ${JSON.stringify(response.payload.authSuccess)}`
-          );
+         
 
           this.setState({ isAuthenticated: response.payload.authSuccess});
         })

@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const path = require('path')
 const config = require('./config/keys');
 const { json } = require('body-parser');
-const mainRouter = require('./routers/mainRouter');
+const userRouter = require('./routers/userRouter');
+const postRouter = require('./routers/postRouter');
 
 const app = express();
 
@@ -28,7 +29,9 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: t
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use('/', mainRouter);
+app.use('/', userRouter);
+app.use('/', postRouter);
+
 
 
 /* Build and deployment */

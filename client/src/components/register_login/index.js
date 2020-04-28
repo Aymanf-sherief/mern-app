@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loginUser, registerUser } from "../../actions/user_actions";
+import { loginUser, registerUser } from "../../actions/user/actions";
 import { Redirect } from "react-router-dom";
 
 import LoginForm from "./login";
