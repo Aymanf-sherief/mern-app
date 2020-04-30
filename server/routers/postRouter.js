@@ -46,12 +46,16 @@ router.get("/api/posts/list/:username", (req, res) => {
   console.log(`finding posts of user: ${req.params.username}`);
   User.findOne({ username: req.params.username }, (err, user) => {
     if (err) return res.status(401).json({ success: false, error: err });
-    Post.find({ user: user._id }, (err, posts) => {
-      if (err) return res.status(401).json({ success: false, error: err });
-      user.posts = posts;
+    if (user) {
+      Post.find({ user: user._id }, (err, posts) => {
+        if (err) return res.status(401).json({ success: false, error: err });
+        user.posts = posts;
 
-      return res.status(200).json({ success: true, UserWithPosts: user });
-    });
+        return res.status(200).json({ success: true, UserWithPosts: user });
+      });
+    } else {
+      return res.status(200).json({ success: false, err: "user not found" });
+    }
   });
 });
 
