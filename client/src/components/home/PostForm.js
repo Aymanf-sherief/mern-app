@@ -26,8 +26,12 @@ class PostForm extends Component {
   }
 
   render() {
+    const cardStyle = {
+      margin: '15px',
+      
+    };
     return (
-      <Form>
+      <Form style = {cardStyle}>
         <Form.Row>
           <Col sm={10}>
             <Form.Control

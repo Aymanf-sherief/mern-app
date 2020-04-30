@@ -10,6 +10,7 @@ import RegisterFrom from "./register_login/register";
 import { AuthenticatedRoute, UnAuthenticatedRoute } from "./route";
 import { authUser } from "../actions/user/actions";
 import { Container } from "react-bootstrap";
+import User from "./User";
 
 class App extends Component {
   state = {
@@ -61,6 +62,11 @@ class App extends Component {
             path="/register"
             component={LoginRegister}
             appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()}  ,newUser:true}}
+          />{" "}
+           <UnAuthenticatedRoute
+            path="/@:username"
+            component={User}
+            appProps={{ isAuthenticated: this.state.isAuthenticated,}}
           />{" "}
           <AuthenticatedRoute
             path="/home"

@@ -8,11 +8,11 @@ class RegisterFrom extends Component {
   render() {
   
     return (
-      <Form>
-        <Input placeholder="Email Address" type="email" name="email"></Input>
-        <Input placeholder="First Name" type="text" name="name"></Input>
-        <Input placeholder="Last Name" type="text" name="lastname"></Input>
-        <Input placeholder="Password" type="password" name="password"></Input>
+      <Form onSubmit={this.props.onSubmit}>
+        <Input placeholder="Email Address" type="email" name="email" onChange={this.props.handleChange}></Input>
+        <Input placeholder="Username" type="text" name="username" onChange={this.props.handleChange}></Input>
+        
+        <Input placeholder="Password" type="password" name="password" onChange={this.props.handleChange}></Input>
         <Button variant="primary" type="submit">
           Sign Up
         </Button>

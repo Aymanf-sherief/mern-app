@@ -4,14 +4,13 @@ import { loginUser, registerUser } from "../../actions/user/actions";
 import { Redirect } from "react-router-dom";
 
 import LoginForm from "./login";
-import RegisterForm from "./register"
+import RegisterForm from "./register";
 
 class LoginRegister extends Component {
   state = {
     email: "",
     password: "",
-    name: "",
-    lastname: "",
+    username: "",
     errors: [],
     redirect: null,
     newUser: false,
@@ -19,34 +18,29 @@ class LoginRegister extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    console.log(this.state)
-    
   }
 
   handleChange(event) {
-    console.log({ [event.target.type]: event.target.value })
-    this.setState({ [event.target.type]: event.target.value });
+    console.log({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  OnSubmitSignup(event) {
-    console.log(event);
+  OnSubmitSignup = (event) => {
+    console.log("sign up");
     event.preventDefault();
     let dataToSubmit = {
       email: this.state.email,
       password: this.state.password,
-      name: this.state.name,
-      lastname: this.state.lastname,
+      username: this.state.username,
     };
-    if (this.isFormValid(this.state)) {
-      this.setState({ errors: [] });
-      console.log(dataToSubmit);
-      this.props.dispatch(registerUser(dataToSubmit)).then((response) => {
-        console.log(response);
-        if (response.payload.registerSuccess) {
-         this.setState({redirect: '/login'})
-        }
-      });
-    }
+    this.setState({ errors: [] });
+    console.log(dataToSubmit);
+    this.props.dispatch(registerUser(dataToSubmit)).then((response) => {
+      console.log(response);
+      if (response.payload.registerSuccess) {
+        this.setState({ redirect: "/login" });
+      }
+    });
   }
 
   OnSubmitLogin = (event) => {
@@ -56,31 +50,40 @@ class LoginRegister extends Component {
       password: this.state.password,
     };
     console.log(`data: ${JSON.stringify(dataToSubmit)}`);
-    
-      this.setState({ errors: [] });
-      console.log(dataToSubmit);
-      this.props.dispatch(loginUser(dataToSubmit)).then((response) => {
-        console.log("going home");
 
-        console.log(response);
-        if (response.payload.loginSuccess) {
-          this.props.auth();
-        }
-      });
-    
-  }
+    this.setState({ errors: [] });
+    console.log(dataToSubmit);
+    this.props.dispatch(loginUser(dataToSubmit)).then((response) => {
+      console.log("going home");
+
+      console.log(response);
+      if (response.payload.loginSuccess) {
+        this.props.auth();
+      }
+    });
+  };
 
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    if(this.props.newUser)
-    {
-    return <RegisterForm onSubmit={this.OnSubmitSignup}></RegisterForm>;}
-    else{
-    return <LoginForm onSubmit={this.OnSubmitLogin} handleChange={this.handleChange}></LoginForm>;
+    if (this.props.newUser) {
+      return (
+        <RegisterForm
+          onSubmit={this.OnSubmitSignup}
+          handleChange={this.handleChange}
+        >
+          >
+        </RegisterForm>
+      );
+    } else {
+      return (
+        <LoginForm
+          onSubmit={this.OnSubmitLogin}
+          handleChange={this.handleChange}
+        ></LoginForm>
+      );
     }
-
   }
 }
 

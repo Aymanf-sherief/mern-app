@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 const { json } = require("body-parser");
+const { User } = require("../models/user");
 
 router.use((req, res, next) => {
   console.log(`${req.method}: ${req.url} WITH ${JSON.stringify(req.body)}`);
@@ -23,7 +24,11 @@ router.post("/api/posts/create", auth, (req, res) => {
   post["user"] = req.user._id;
   post.save((err, savedPost) => {
     if (err) return res.status(401).json({ success: false, error: err });
-    savedPost['user'] = req.user;
+    savedPost["user"] = req.user;
+    User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $push: { posts: savedPost._id } }
+    );
     return res.status(200).json({ success: true, postData: savedPost });
   });
 });
@@ -35,6 +40,19 @@ router.get("/api/posts/list", auth, (req, res) => {
       if (err) return res.status(401).json({ success: false, error: err });
       return res.status(200).json({ success: true, posts: posts });
     });
+});
+
+router.get("/api/posts/list/:username", (req, res) => {
+  console.log(`finding posts of user: ${req.params.username}`);
+  User.findOne({ username: req.params.username }, (err, user) => {
+    if (err) return res.status(401).json({ success: false, error: err });
+    Post.find({ user: user._id }, (err, posts) => {
+      if (err) return res.status(401).json({ success: false, error: err });
+      user.posts = posts;
+
+      return res.status(200).json({ success: true, UserWithPosts: user });
+    });
+  });
 });
 
 module.exports = router;

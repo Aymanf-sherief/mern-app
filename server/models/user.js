@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken')
 const saltRounds = 10;
 
 const userSchema = mongoose.Schema({
-    name: {
+    username: {
         type: String,
-        maxlength: 50
+        maxlength: 100,
+        unique: true,
     },
     email: {
         type: String,
@@ -17,10 +18,8 @@ const userSchema = mongoose.Schema({
         type: String,
         minlength: 5
     },
-    lastname: {
-        type: String,
-        maxlength: 50
-    },
+   
+    
     role: {
         type: Number,
         default: 0
@@ -71,6 +70,7 @@ userSchema.statics.findByToken = function (token, cb) {
         User.findOne({_id: decode.data, token: token}, cb);
     })   
 }
+
 
 const User = mongoose.model('User', userSchema);
 

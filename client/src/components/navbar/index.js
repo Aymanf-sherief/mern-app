@@ -28,7 +28,7 @@ class CustomNavbar extends Component {
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="home">
           Hello,
-          {this.props.user.userData ? this.props.user.userData.name : "Guest"}
+          {this.props.user.userData ? this.props.user.userData.username : "Guest"}
         </Navbar.Brand>
 
         <Navbar.Collapse id="basic-navbar-nav">
