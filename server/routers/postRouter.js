@@ -26,8 +26,12 @@ router.post("/api/posts/create", auth, (req, res) => {
     if (err) return res.status(401).json({ success: false, error: err });
     savedPost["user"] = req.user;
     User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $push: { posts: savedPost._id } }
+      { _id: savedPost.user._id },
+      { $push: { posts: savedPost._id } },
+      (err, user) => {
+        if (err) console.log(err);
+        console.log(user);
+      }
     );
     return res.status(200).json({ success: true, postData: savedPost });
   });
@@ -44,19 +48,17 @@ router.get("/api/posts/list", auth, (req, res) => {
 
 router.get("/api/posts/list/:username", (req, res) => {
   console.log(`finding posts of user: ${req.params.username}`);
-  User.findOne({ username: req.params.username }, (err, user) => {
-    if (err) return res.status(401).json({ success: false, error: err });
-    if (user) {
-      Post.find({ user: user._id }, (err, posts) => {
-        if (err) return res.status(401).json({ success: false, error: err });
-        user.posts = posts;
-
-        return res.status(200).json({ success: true, UserWithPosts: user });
-      });
-    } else {
-      return res.status(200).json({ success: false, err: "user not found" });
-    }
-  });
+  User.findOne({ username: req.params.username })
+    .populate("posts")
+    .populate({ path: "posts", populate: { path: "user", populate: "User" } })
+    .exec((err, user) => {
+      if (err) return res.status(401).json({ success: false, error: err });
+      if (user) {
+        return res.status(200).json({ success: true, posts: user.posts });
+      } else {
+        return res.status(200).json({ success: false, err: "user not found" });
+      }
+    });
 });
 
 module.exports = router;

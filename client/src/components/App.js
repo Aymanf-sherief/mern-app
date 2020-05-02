@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component } from "react";
 import { connect } from "react-redux";
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import About from "./about";
 import Home from "./home";
 
@@ -63,10 +63,10 @@ class App extends Component {
             component={LoginRegister}
             appProps={{ isAuthenticated: this.state.isAuthenticated, auth: () => {this.Auth()}  ,newUser:true}}
           />{" "}
-           <UnAuthenticatedRoute
+           <Route
             path="/@:username"
             component={User}
-            appProps={{ isAuthenticated: this.state.isAuthenticated,}}
+            
           />{" "}
           <AuthenticatedRoute
             path="/home"

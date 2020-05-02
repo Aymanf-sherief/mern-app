@@ -10,7 +10,7 @@ axios.defaults.withCredentials = true;
 class Home extends Component {
   state = {
     redirect: false,
-    UserWithPosts: false,
+    posts: false,
   };
 
   loadPosts() {
@@ -19,14 +19,14 @@ class Home extends Component {
         .then((response) => {
           console.log(`getPosts resp: ${JSON.stringify(response)}`);
 
-          this.setState({ UserWithPosts: response.data.UserWithPosts });
+          this.setState({ posts: response.data.posts });
         })
-        .catch((err) => console.log(`getPosts resp: ${JSON.stringify(err)}`));
+        .catch((err) => console.log(`error resp: ${JSON.stringify(err)}`));
     }
   
 
  
-componentWillMount(){
+componentDidMount(){
   this.loadPosts();
 }
   render() {
@@ -34,12 +34,17 @@ componentWillMount(){
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
+    console.log(`Posts are: ${this.state.posts}`)
+    if(this.state.posts){
     return (
       <Container fluid>
-       <h5>{this.state.UserWithPosts.username}'s posts</h5>
-        <PostList posts={this.state.UserWithPosts.posts}/>
+       <h5>{this.state.posts[0].user.username}'s posts</h5>
+        <PostList posts={this.state.posts}/>
       </Container>
-    );
+    );}
+    else{
+      return <h5>Loading Posts ...</h5>
+    }
   }
 }
 
